@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "279eee8a-1b5f-407f-a4f5-1e5c442847cf",
+		"name": "Inwarranty flow phoenix",
+		"description": "This collection consisit of all API's of inwarranty flow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38414121"
+	},
+	"item": [
+		{
+			"name": "Login API Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"In post request\");\r",
+							"console.log(pm.variables.get(\"a\"));\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"//console.log(responseBody.data.token);\r",
+							"pm.collectionVariables.set(\"FD_Token\", responseBody.data.token);\r",
+							"\r",
+							"pm.test(\"Verify success message\", function (){\r",
+							"    pm.expect(responseBody.message).to.be.eql(\"Success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify status code\", function(){\r",
+							"    pm.expect(pm.response.status).to.be.eql(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify resopnse time less than 700 ms\", function(){\r",
+							"\r",
+							"pm.expect(pm.response.responseTime).lessThan(700);\r",
+							"\r",
+							"\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var a =10;\r",
+							"a =\"charu\";\r",
+							"a=false;\r",
+							"a=\"Rahul\";\r",
+							"var pm_a=\"envvariable\"\r",
+							"\r",
+							"console.log(\"In pre requisite\");\r",
+							"console.log(a);\r",
+							"pm.variables.set(\"a\",\"dads\");\r",
+							"\r",
+							"var username = pm.iterationData.get(\"username\");\r",
+							"pm.variables.set(\"PM_username\", username);\r",
+							"\r",
+							"var password = pm.iterationData.get(\"password\")\r",
+							"pm.variables.set(\"PM_password\",password);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"host": true,
+					"user-agent": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*",
+						"disabled": true
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.9",
+						"disabled": true
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Origin",
+						"value": "http://phoenix.techwithjatin.com",
+						"disabled": true
+					},
+					{
+						"key": "Referer",
+						"value": "http://phoenix.techwithjatin.com/",
+						"disabled": true
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"{{PM_username}}\",\r\n\"password\":\"{{PM_password}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USer details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3MjY2Mjc2Nzl9.8PvMYpZHW7snT_O9SU-u85NtbUWntsFAMA4DrnuHvwY"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Origin",
+						"value": "http://phoenix.techwithjatin.com"
+					},
+					{
+						"key": "Referer",
+						"value": "http://phoenix.techwithjatin.com/"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+					}
+				],
+				"url": {
+					"raw": "http://139.59.91.96:9000/v1/userdetails",
+					"protocol": "http",
+					"host": [
+						"139",
+						"59",
+						"91",
+						"96"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"userdetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Count API",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3MjY2Mjc2Nzl9.8PvMYpZHW7snT_O9SU-u85NtbUWntsFAMA4DrnuHvwY"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Origin",
+						"value": "http://phoenix.techwithjatin.com"
+					},
+					{
+						"key": "Referer",
+						"value": "http://phoenix.techwithjatin.com/"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+					}
+				],
+				"url": {
+					"raw": "http://139.59.91.96:9000/v1/dashboard/count",
+					"protocol": "http",
+					"host": [
+						"139",
+						"59",
+						"91",
+						"96"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"dashboard",
+						"count"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "FD_Token",
+			"value": ""
+		}
+	]
+}
